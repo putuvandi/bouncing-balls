@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BALLS</title>
+  <style>
+	canvas {
+		border: 1px solid black;
+	}
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width=400 height=400>
+    Canvas is not supported by your browser...
+  </canvas>
+  <script>
+	var canvas, ctx, w, h;
+	var mousePos;
+
+	var balls = [];
+	
+	var player = {
+		x: 10,
+		y: 10,
+		width: 20,
+		height: 20,
+		color: 'red'
+	}
+
+	window.onload = function init() {
+	  // called after the page has been loaded
+	  canvas = document.querySelector("#myCanvas");
+	  
+	  w = canvas.width;
+	  h = canvas.height;
+	  
+	  ctx = canvas.getContext("2d");
+	  
+	  // create 10 balls
+	  balls = createBalls(10);
+	  
+	  canvas.addEventListener('mousemove', mouseMoved);
+	  
+	  // ready to go!
+	  mainLoop();
+	}
+	
+	function mouseMoved(evt) {
+		mousePos = getMousePos(canvas, evt);
+	}
+	
+	function getMousePos(canvas, evt) {
+		var rect = canvas.getBoundingClientRect();
+		return {
+			x: evt.clientX - rect.left - 10,
+			y: evt.clientY - rect.top - 10
+		};
+	}
+	
+	function movePlayerWithMouse() {
+		if (mousePos != undefined) {
+			player.x = mousePos.x;
+			player.y = mousePos.y;
+		}
+	}
+
+	function createBalls(n) {
+	  // empty array of balls
+	  var ballArray = [];
+	  
+	  // create n balls
+	  for (var i=0; i < n; i++) {
+		var b = {
+		  x:w/2,
+		  y:h/2,
+		  radius: 5 + 30 * Math.random(), // between 5 and 35
+		  speedX: -5 + 10 * Math.random(), // between -5 and 5
+		  speedY: -5 + 10 * Math.random(), // between -5 and 5
+		  color: getRandomColor(),
+		}
+		// add ball to the array
+		ballArray.push(b);
+	  }
+	  // returns array of balls
+	  return ballArray;
+	}
+
+	function getRandomColor() {
+	  var colors = ['red', 'blue', 'cyan', 'purple', 'pink', 'green', 'yellow'];
+	  
+	  var colorIndex = Math.round((colors.length-1)*Math.random());
+	  var c = colors[colorIndex];
+	  
+	  return c;
+	}
+
+	function mainLoop() {
+	  // clear the canvas
+	  ctx.clearRect(0, 0, w, h);
+	  
+	  // draw the player
+	  drawFilledRectangle(player);
+	  
+	  // draw the balls
+	  drawAllBalls(balls);
+	  
+	  // animate the bouncing balls
+	  moveAllBalls(balls);
+	  
+	  movePlayerWithMouse();
+	  
+	  // ask for a new animation frame
+	  requestAnimationFrame(mainLoop);
+	}
+	
+	function drawFilledRectangle(r) {
+		ctx.save();
+		ctx.translate(r.x, r.y);
+		ctx.fillStyle = r.color;
+		ctx.fillRect(0, 0, r.width, r.height);
+		ctx.restore();
+	}
+
+	function drawAllBalls(ballArray) {
+	  ballArray.forEach(function(b) {
+		drawFilledCircle(b);
+	  });
+	}
+
+	function drawFilledCircle(c) {
+	  // save the context
+	  ctx.save();
+	  
+	  // translate the coordinate system, draw relative to it
+	  ctx.translate(c.x, c.y);
+	  
+	  ctx.fillStyle = c.color;
+	  
+	  ctx.beginPath();
+	  ctx.arc(0, 0, c.radius, 0, 2*Math.PI);
+	  ctx.fill();
+	  
+	  // GOOD practice: restore the context
+	  ctx.restore();
+	}
+
+	function moveAllBalls(ballArray) {
+	  // iterate on all balls in array
+	  ballArray.forEach(function(b) {
+		b.x += b.speedX;
+		b.y += b.speedY;
+		
+		testCollisionBallWithWalls(b);
+	  });
+	}
+
+	function testCollisionBallWithWalls(b) {
+	  // COLLISION WITH VERTICAL WALLS
+	  if ((b.x + b.radius) > w) {
+	    // the ball hit the right wall
+        // change horizontal direction
+		b.speedX = -b.speedX;
+		// put the ball at the collision point
+		b.x = w - b.radius;
+	  } else if ((b.x - b.radius) < 0) {
+	    // the ball hit the left wall
+		// change horizontal direction
+		b.speedX = -b.speedX;
+		// put the ball at the collision point
+		b.x = b.radius;
+	  }
+	  
+	  // COLLISIONS WTH HORIZONTAL WALLS
+	  // Not in the else as the ball can touch both
+	  // vertical and horizontal walls in corners
+	  if ((b.y + b.radius) > h) {
+	    // the ball hit the bottom wall
+        // change vertical direction
+		b.speedY = -b.speedY;
+		// put the ball at the collision point
+		b.y = h - b.radius;
+	  } else if ((b.y - b.radius) < 0) {
+	    // the ball hit the top wall
+        // change vertical direction
+		b.speedY = -b.speedY;
+		// put the ball at the collision point
+		b.Y = b.radius;
+	  }
+	}
+  </script>
+</body>
+</html>
