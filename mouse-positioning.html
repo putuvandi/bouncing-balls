@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mouse Pos</title>
+  <style>
+	canvas {
+		border: 1px solid black;
+	}
+	body {
+		margin: 20px;
+		padding: 0px;
+	}
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width=600 height=200>
+    Canvas is not supported by your browser...
+  </canvas>
+  <script>
+	var canvas, ctx, mousePos, mouseButton;
+
+	window.onload = function init() {
+		canvas = document.querySelector("#myCanvas");
+		ctx = canvas.getContext("2d");
+		
+		canvas.addEventListener('mousemove', function(evt) {
+			mousePos = getMousePos(canvas, evt);
+			var msg = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+			writeMessage(canvas, msg);
+		}, false);
+		
+		canvas.addEventListener('mousedown', function(evt) {
+			mouseButton = evt.button;
+			var msg = "Mouse button " + evt.button + " down at position: " + mousePos.x + ',' + mousePos.y;
+			writeMessage(canvas, msg);
+		}, false);
+		
+		canvas.addEventListener('mouseup', function(evt) {
+			var msg = "Mouse up at position: " + mousePos.x + ',' + mousePos.y;
+			writeMessage(canvas, msg);
+		}, false);
+	}
+	
+	function writeMessage(canvas, msg) {
+		ctx.save();
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.font = '18pt Calibri';
+		ctx.fillStyle = 'black';
+		ctx.fillText(msg, 10, 25);
+		ctx.restore();
+	}
+	
+	function getMousePos(canvas, evt) {
+		// necessary to take into account CSS boundaries
+		var rect = canvas.getBoundingClientRect();
+	    return {
+			x: evt.clientX - rect.left,
+			y: evt.clientY - rect.top
+	    };
+	}
+  </script>
+</body>
+</html>
