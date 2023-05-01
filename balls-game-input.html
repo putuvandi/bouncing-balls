@@ -258,8 +258,8 @@
 	function moveAllBalls(ballArray) {
 	  // iterate on all balls in array
 	  ballArray.forEach(function(b, index) {
-		b.x += b.speedX;
-		b.y += b.speedY;
+		b.x += b.speedX * globalSpeedMultiplier;
+		b.y += b.speedY * globalSpeedMultiplier;
 		
 		testCollisionBallWithWalls(b);
 		
