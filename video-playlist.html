@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Playlist</title>
+  <script>
+	let myVideo;
+	let currentVideo = 0;
+	let sources = [
+		"https://media.w3.org/2010/05/sintel/trailer.mp4",
+		"https://mainline.i3s.unice.fr/mooc/samuraiPizzacat.mp4"
+	];
+	
+	function loadNextVideo() {
+		myVideo.src = sources[currentVideo % sources.length];
+		myVideo.load();
+		currentVideo++;
+	}
+	
+	function loadAndPlayNextVideo() {
+		loadNextVideo();
+		myVideo.play();
+	}
+	
+	function init() {
+		myVideo = document.querySelector("#myVideo");
+		
+		myVideo.addEventListener('ended', loadAndPlayNextVideo, false);
+		
+		loadNextVideo();
+	}
+  </script>
+</head>
+<body onload="init()">
+  <video id="myVideo" controls></video>
+</body>
+</html>

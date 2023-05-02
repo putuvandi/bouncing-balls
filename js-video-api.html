@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS API Video</title>
+</head>
+<body>
+  <video id="myVideo" controls>
+	<source src="https://mainline.i3s.unice.fr/mooc/samuraiPizzacat.webm" type="video/webm">
+  </video>
+  
+	<p>Example of custom controls:</p>
+	<button onclick="playVideo();" style="cursor: pointer;">Play</button>
+	<button onclick="pauseVideo();" style="cursor: pointer;">Pause</button>
+	<button onclick="rewindVideo();" style="cursor: pointer;">Back to beginning</button>
+
+  <script>
+	window.onload = init;
+	
+	let vid, src;
+	
+	function init() {
+		vid = document.querySelector("#myVideo");
+		src = document.querySelector("source");
+		
+		vid.addEventListener('ended', playNextVideo, false);
+	}
+	
+	function playVideo() {
+		vid.play();
+	}
+	
+	function pauseVideo() {
+		vid.pause();
+	}
+	
+	function rewindVideo() {
+		vid.currentTime = 0;
+	}
+	
+	function playNextVideo() {
+		var temp = src.getAttribute("type");
+		if (temp === "video/webm") {
+			src.setAttribute("src", "https://media.w3.org/2010/05/sintel/trailer.mp4");
+			src.setAttribute("type", "video/mp4");
+		} else {
+			src.setAttribute("src", "https://mainline.i3s.unice.fr/mooc/samuraiPizzacat.webm");
+			src.setAttribute("type", "video/webm");
+		}
+		vid.load();
+		vid.play();
+	}
+  </script>
+</body>
+</html>
