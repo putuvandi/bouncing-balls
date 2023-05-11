@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Example</title>
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+        }
+
+        th, tr, td {
+            border: 1px solid;
+        }
+
+        td {
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <caption>A typical HTML table</caption>
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Age</th>
+        </tr>
+        <tr>
+            <td>Vandi</td>
+            <td>Setyawan</td>
+            <td>21</td>
+        </tr>
+        <tr>
+            <td>Max</td>
+            <td>Verstapen</td>
+            <td>23</td>
+        </tr>
+        <tr>
+            <td>Shinici</td>
+            <td>Kudo</td>
+            <td>Unknown</td>
+        </tr>
+    </table>
+    <p>Click the button below to collapse:</p>
+    <button onclick="borderCollapse();">Border Collapse</button>
+
+    <script>
+        function borderCollapse() {
+            var table = document.querySelector("table");
+
+            table.style.borderCollapse = "collapse";
+        }
+    </script>
+</body>
+</html>

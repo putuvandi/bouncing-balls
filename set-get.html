@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Setter & Getter</title>
+</head>
+<body>
+    <script>
+        class Person {
+            constructor(firstName, lastName) {
+                this.firstName = firstName;
+                this._lastName = lastName;
+            }
+
+            get lastName() {
+                return this._lastName.toUpperCase();
+            }
+
+            set lastName(name) {
+                this._lastName = name;
+            }
+
+            walk() {
+                return (this.firstName + ' ' + this._lastName + ' is walking.');
+            }
+        }
+
+        let p1 = new Person('Michael', 'Myers');
+        console.log(p1.lastName);
+        p1.lastName = 'Bruh';
+        console.log(p1.lastName);
+    </script>
+</body>
+</html>

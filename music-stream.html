@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio element from JS</title>
+</head>
+<body>
+     <p>  This example shows how we can play/pause a background music from javaScript.</p>
+     <audio src="https://mainline.i3s.unice.fr/mooc/SkywardBound/assets/sounds/humbug.mp3" id="audioPlayer" controls></audio>
+
+     <button onclick="play();">Play</button>
+     <button onclick="pause();">Pause</button>
+
+     <script>
+        function play() {
+            var player = document.querySelector("#audioPlayer");
+            player.play();
+        }
+        function pause() {
+            var player = document.querySelector("#audioPlayer");
+            player.pause();
+        }
+     </script>
+</body>
+</html>
